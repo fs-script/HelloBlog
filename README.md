@@ -1,6 +1,6 @@
 # 博客系统
 
-> Node (Express) + SQLite + Vue3
+> Node (Express) + SQLite + Vite + Vue3 (Vue-Router + Pinia) + Naive UI
 
 🔗 [在线演示]()
 
@@ -162,3 +162,27 @@
 | token | 令牌 | Header |
 
 ## 二、客户端
+
+### 01、使用 Vite 创建 Vue 项目
+
+- 创建 vite 项目：`npm create vite@latest`
+
+- 安装依赖：`npm install`
+
+- 运行项目：`npm run dev`
+
+### 02、安装模块
+
+- Ajax请求：`npm install axios`
+
+- 状态管理：`npm install pinia`
+
+- 路由管理：`npm install vue-router@4`
+
+- CSS扩展语言：`npm install sass`
+
+- UI组件库与字体：`npm i -D naive-ui`、`npm i -D vfonts`
+
+- 富文本编辑器：`npm install @wangeditor/editor-for-vue@next --save`
+
+### 03、搭建项目
