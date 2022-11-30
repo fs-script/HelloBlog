@@ -1,5 +1,7 @@
 <template>
-  <RouterView />
+  <div>
+    文章分类
+  </div>
 </template>
 
 <script setup>

@@ -16,6 +16,8 @@
 
 - 安装 uuid 唯一标志生成中间件： `npm install uuid`
 
+- 安装 cors 处理跨域请求：`npm install cors`
+
 - 使用雪花 ID 算法：`https://gitee.com/baby_muxin/idgenerator/tree/master/Node.js`
 
 ### 02、配置中间件
@@ -185,4 +187,18 @@
 
 - 富文本编辑器：`npm install @wangeditor/editor-for-vue@next --save`
 
+- 图标库：`npm i -D @vicons/ionicons5`
+
 ### 03、搭建项目
+
+- 引入 UI 组件库
+
+- 引入 Pinia
+
+- 配置 router.js 引入路由
+
+- 引入 Axios 配置服务端默认请求地址
+
+### 04、登录页面
+
+### 05、后台控制面板

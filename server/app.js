@@ -1,22 +1,24 @@
 const express = require("express")
 const multer = require("multer")
 const path = require("path")
+const cors = require("cors")
 const { db } = require("./db/db-utils")
 const app = express()
 const port = 8080
 
 // 处理跨域
-app.use(function (req, res, next) {
-  res.header("Access-Control-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "*")
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Origin", "*")
+//   res.header("Access-Control-Allow-Headers", "authorization, Authorization, DNT, X-CustomHeader, Keep-Alive,User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, token")
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 
-  if (req.method == "OPTIONS") {
-    res.sendStatus(200)
-  } else {
-    next()
-  }
-})
+//   if (req.method == "OPTIONS") {
+//     res.sendStatus(200)
+//   } else {
+//     next()
+//   }
+// })
+app.use(cors())
 
 // 处理 JSON
 app.use(express.json())
