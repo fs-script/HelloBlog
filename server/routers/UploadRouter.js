@@ -3,7 +3,7 @@ const router = express.Router()
 const { db, genid } = require("../db/db-utils")
 const fs = require("fs")
 
-router.post("/_token/upload", async (req, res) => {
+router.post("/upload", async (req, res) => {
   if (!req.files){
     res.send({
       "errno": 1,

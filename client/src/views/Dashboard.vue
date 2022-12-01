@@ -51,12 +51,28 @@ const menuOptions = [
     icon: renderIcon(ArticleIcon)
   },
   {
-    label: '分类管理',
+    label: () => h(
+      RouterLink,
+      {
+        to: {
+          path: '/dashboard/category'
+        }
+      },
+      { default: () => '分类管理' }
+    ),
     key: 'classification-management',
     icon: renderIcon(ClassifyIcon)
   },
   {
-    label: '退出登录',
+    label: () => h(
+      RouterLink,
+      {
+        to: {
+          path: '/login'
+        }
+      },
+      { default: () => '退出' }
+    ),
     key: 'exit',
     icon: renderIcon(ExitIcon)
   }
