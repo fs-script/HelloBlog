@@ -2,14 +2,14 @@ const express = require("express")
 const router = express.Router()
 const { db, genid } = require("../db/db-utils")
 
-// 添加文章
+// 文章添加接口
 router.post("/_token/add", async (req, res) => {
   let { title, categoryId, content } = req.body
   let id = genid.NextId()
   let createTime = new Date().getTime()
   const insertSql = "INSERT INTO blog (`id`, `title`, `category_id`, `content`, `create_time`) VALUES (?, ?, ?, ?, ?)"
   let params = [id, title, categoryId, content, createTime]
-  let { err, rows } = await db.async.run(insertSql, params)
+  let { err } = await db.async.run(insertSql, params)
 
   if (err == null) {
     res.send({
@@ -24,17 +24,17 @@ router.post("/_token/add", async (req, res) => {
   }
 })
 
-// 修改文章
+// 文章修改接口
 router.put("/_token/update", async (req, res) => {
   let { id, title, categoryId, content } = req.body
   const updateSql = "UPDATE blog SET `title` = ?, `category_id` = ?, `content` = ? WHERE `id` = ?"
   let params = [title, categoryId, content, id]
-  let { err, rows } = await db.async.run(updateSql, params)
+  let { err } = await db.async.run(updateSql, params)
 
   if (err == null) {
     res.send({
       code: 200,
-      mag: "修改成功",
+      msg: "修改成功",
     })
   } else {
     res.send({
@@ -44,11 +44,11 @@ router.put("/_token/update", async (req, res) => {
   }
 })
 
-// 删除文章
+// 文章删除接口
 router.delete("/_token/delete", async (req, res) => {
   let id = req.query.id
   const deleteSql = "DELETE FROM blog WHERE `id` = ?"
-  let { err, rows } = await db.async.run(deleteSql, [id])
+  let { err } = await db.async.run(deleteSql, [id])
 
   if (err == null) {
     res.send({
@@ -63,43 +63,41 @@ router.delete("/_token/delete", async (req, res) => {
   }
 })
 
-// 查询文章
+// 文章分页列表获取接口
 router.get("/search", async (req, res) => {
   let { keyword, categoryId, page, pageSize } = req.query
-
   keyword = (keyword == null) ? "" : keyword
   categoryId = (categoryId == null) ? 0 : categoryId
-  page = (page == null) ? 1 : page
-  pageSize = (page == null) ? 10 : pageSize
+  page = (page == null) ? 1 : page;
+  pageSize = (pageSize == null) ? 10 : pageSize
 
-  let whereSql = []
   let params = []
+  let whereSql = []
+  let whereSqlStr = ""
 
   if (categoryId != 0) {
-    whereSql.push("`category_id` = ?")
-    params.push(categoryId)
+      whereSql.push(" `category_id` = ? ")
+      params.push(categoryId)
   }
 
   if (keyword != "") {
-    whereSql.push("(`title` LIKE ? OR `content` LIKE ?)")
-    params.push("%" + keyword + "%")
-    params.push("%" + keyword + "%")
+      whereSql.push(" (`title` LIKE ? OR `content` LIKE ?) ")
+      params.push("%" + keyword + "%")
+      params.push("%" + keyword + "%")
   }
 
-  let whereSqlStr = ""
   if (whereSql.length > 0) {
-    whereSqlStr = " WHERE " + whereSql.join(" AND ")
+      whereSqlStr = " WHERE " + whereSql.join(" AND ")
   }
 
-  // 分页数据语句
-  let searchSql = "SELECT id, category_id, create_time, title, substr(content, 0, 50) AS content FROM blog" + whereSqlStr + " ORDER BY `create_time` DESC LIMIT ?, ?"
+  let searchSql = " SELECT id, category_id, create_time, title, substr(content,0,50) AS content FROM blog " + whereSqlStr + " ORDER BY create_time DESC LIMIT ?, ? "
   let searchSqlParams = params.concat([(page - 1) * pageSize, pageSize])
 
-  // 数据总数语句
-  let searchCountSql = "SELECT count(*) AS count FROM blog" + whereSqlStr
+  // 数据总数
+  let searchCountSql = " SELECT count(*) AS `count` FROM blog " + whereSqlStr
   let searchCountParams = params
 
-  // 查询分页数据
+  // 分页数据
   let searchResult = await db.async.all(searchSql, searchSqlParams)
   let countResult = await db.async.all(searchCountSql, searchCountParams)
 
@@ -118,8 +116,28 @@ router.get("/search", async (req, res) => {
     })
   } else {
     res.send({
-      code: 403,
+      code: 500,
       msg: "查询失败",
+    })
+  }
+})
+
+// 文章详情获取接口
+router.get("/detail", async (req, res) => {
+  let { id } = req.query
+  let detailSql = "SELECT * FROM blog WHERE `id` = ?"
+  let { err, rows } = await db.async.all(detailSql, [id])
+
+  if (err == null) {
+    res.send({
+      code: 200,
+      msg: "获取成功",
+      rows,
+    })
+  } else {
+    res.send({
+      code: 403,
+      msg: "获取失败",
     })
   }
 })

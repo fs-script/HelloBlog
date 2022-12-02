@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
 const { v4: uuidv4 } = require("uuid")
-const { db, genid } = require("../db/db-utils")
+const { db } = require("../db/db-utils")
 
+// 管理员登录接口
 router.post("/login", async (req, res) => {
   let { account, password } = req.body
   let searchSql = "SELECT * FROM admin WHERE `account` = ? AND `password` = ?"

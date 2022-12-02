@@ -1,6 +1,6 @@
 const express = require("express")
-const multer = require("multer")
 const path = require("path")
+const multer = require("multer")
 const cors = require("cors")
 const { db } = require("./db/db-utils")
 const app = express()
@@ -19,7 +19,6 @@ const port = 8080
 //   }
 // })
 app.use(cors())
-
 // 处理 JSON
 app.use(express.json())
 
@@ -52,18 +51,12 @@ app.use("/category", require("./routers/CategoryRouter"))
 app.use("/blog", require("./routers/BlogRouter"))
 
 // 处理文件上传
-const update = multer({
-  dest: "./public/upload/temp"
-})
+const update = multer({ dest: "./public/upload/temp" })
 app.use(update.any())
 app.use("/editor", require("./routers/UploadRouter"))
 
 // 设置静态资源目录
 app.use(express.static(path.join(__dirname, "public")))
-
-app.get("/", (req, res) => {
-  res.send("Hello World")
-})
 
 app.listen(port, () => {
   console.log(`Running: http://localhost:${port}/`)
