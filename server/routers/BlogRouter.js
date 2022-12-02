@@ -9,7 +9,7 @@ router.post("/_token/add", async (req, res) => {
   let createTime = new Date().getTime()
   const insertSql = "INSERT INTO blog (`id`, `title`, `category_id`, `content`, `create_time`) VALUES (?, ?, ?, ?, ?)"
   let params = [id, title, categoryId, content, createTime]
-  let { err } = await db.async.run(insertSql, params)
+  let { err, rows } = await db.async.run(insertSql, params)
 
   if (err == null) {
     res.send({
@@ -29,7 +29,7 @@ router.put("/_token/update", async (req, res) => {
   let { id, title, categoryId, content } = req.body
   const updateSql = "UPDATE blog SET `title` = ?, `category_id` = ?, `content` = ? WHERE `id` = ?"
   let params = [title, categoryId, content, id]
-  let { err } = await db.async.run(updateSql, params)
+  let { err, rows } = await db.async.run(updateSql, params)
 
   if (err == null) {
     res.send({
@@ -48,7 +48,7 @@ router.put("/_token/update", async (req, res) => {
 router.delete("/_token/delete", async (req, res) => {
   let id = req.query.id
   const deleteSql = "DELETE FROM blog WHERE `id` = ?"
-  let { err } = await db.async.run(deleteSql, [id])
+  let { err, rows } = await db.async.run(deleteSql, [id])
 
   if (err == null) {
     res.send({

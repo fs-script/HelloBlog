@@ -18,7 +18,7 @@ router.post("/_token/add", async (req, res) => {
     return
   }
 
-  let { err } = await db.async.run(insertSql, [genid.NextId(), name])
+  let { err, rows } = await db.async.run(insertSql, [genid.NextId(), name])
 
   if (err == null) {
     res.send({
@@ -37,7 +37,7 @@ router.post("/_token/add", async (req, res) => {
 router.put("/_token/update", async (req, res) => {
   let { id, name } = req.body
   const updateSql = "UPDATE category SET `name` = ? WHERE `id` = ?"
-  let { err } = await db.async.run(updateSql, [name, id])
+  let { err, rows } = await db.async.run(updateSql, [name, id])
 
   if (err == null) {
     res.send({
@@ -56,7 +56,7 @@ router.put("/_token/update", async (req, res) => {
 router.delete("/_token/delete", async (req, res) => {
   let id = req.query.id
   const deleteSql = "DELETE FROM category WHERE `id` = ?"
-  let { err } = await db.async.run(deleteSql, [id])
+  let { err, rows } = await db.async.run(deleteSql, [id])
 
   if (err == null) {
     res.send({
@@ -72,7 +72,7 @@ router.delete("/_token/delete", async (req, res) => {
 })
 
 // 文章分类列表获取接口
-router.get("/list", async (res) => {
+router.get("/list", async (req, res) => {
   const searchSql = "SELECT * FROM category"
   let { err, rows } = await db.async.all(searchSql, [])
 
