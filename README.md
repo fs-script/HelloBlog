@@ -1,6 +1,6 @@
 # 博客系统
 
-> Node (Express) + SQLite + Vite + Vue3 (Vue-Router + Pinia) + Naive UI
+> Node (Express) + SQLite + Vite + Vue3 (Vue-Router + Pinia) + Naive UI + wangEditor
 
 🔗 [在线演示]()
 
@@ -16,7 +16,7 @@
 
 - 安装 uuid 唯一标志生成中间件： `npm install uuid`
 
-- 安装 cors 处理跨域请求：`npm install cors`
+- 安装 cors 处理跨域请求中间件：`npm install cors`
 
 - 使用雪花 ID 算法：`https://gitee.com/baby_muxin/idgenerator/tree/master/Node.js`
 
@@ -175,15 +175,15 @@
 
 ### 02、安装模块
 
-- Ajax请求：`npm install axios`
+- Ajax 请求：`npm install axios`
 
 - 状态管理：`npm install pinia`
 
 - 路由管理：`npm install vue-router@4`
 
-- CSS扩展语言：`npm install sass`
+- CSS 扩展语言：`npm install sass`
 
-- UI组件库与字体：`npm i -D naive-ui`、`npm i -D vfonts`
+- UI 组件库与字体：`npm i -D naive-ui`、`npm i -D vfonts`
 
 - 富文本编辑器：`npm install @wangeditor/editor-for-vue@next --save`
 
@@ -199,7 +199,7 @@
 
 - 引入 Axios 配置服务端默认请求地址
 
-### 04、登录页面
+### 04、登录页
 
 ### 05、后台控制面板
 
@@ -207,6 +207,8 @@
 
 - 分类管理
 
-- 退出登录
+- 退出后台
 
-### 06、
+### 06、首页
+
+### 07、详情页
