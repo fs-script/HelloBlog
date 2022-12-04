@@ -1,49 +1,34 @@
 class Genid {
-  /**
-   *Creates an instance of Genid.
-   * @param {{
-   *   Method: 1,
-   *   BaseTime: 1577836800000,
-   *   WorkerId: Number,
-   *   WorkerIdBitLength: 6,
-   *   SeqBitLength: 6,
-   *   MaxSeqNumber: 5,
-   *   MinSeqNumber: 5,
-   *   TopOverCostCount: 2000,
-   * }} options
-   * @memberof Genid
-   */
   constructor(options) {
     if (options.WorkerId === undefined) {
       throw new Error("lost WorkerId")
     }
-    // 1.BaseTime
+
     const BaseTime = 1577836800000
     if (!options.BaseTime || options.BaseTime < 0) {
       options.BaseTime = BaseTime
     }
-    // 2.WorkerIdBitLength
+
     const WorkerIdBitLength = 6
     if (!options.WorkerIdBitLength || options.WorkerIdBitLength < 0) {
       options.WorkerIdBitLength = WorkerIdBitLength
     }
 
-    // 4.SeqBitLength
     const SeqBitLength = 6
     if (!options.SeqBitLength || options.SeqBitLength < 0) {
       options.SeqBitLength = SeqBitLength
     }
-    // 5.MaxSeqNumber
+
     const MaxSeqNumber = (1 << SeqBitLength) - 1
     if (options.MaxSeqNumber <= 0 || options.MaxSeqNumber === undefined) {
       options.MaxSeqNumber = MaxSeqNumber
     }
-    // 6.MinSeqNumber
+
     const MinSeqNumber = 5
     if (!options.MinSeqNumber || options.MinSeqNumber < 0) {
       options.MinSeqNumber = MinSeqNumber
     }
-    // 7.Others
+
     const topOverCostCount = 2000
     if (!options.TopOverCostCount || options.TopOverCostCount < 0) {
       options.TopOverCostCount = topOverCostCount
@@ -77,7 +62,6 @@ class Genid {
     this._OverCostCountInOneTerm = 0
   }
 
-  // DoGenIDAction .
   DoGenIdAction(OverCostActionArg) {}
 
   BeginOverCostAction(useTimeTick) {}
@@ -101,6 +85,7 @@ class Genid {
       this._IsOverCost = false
       this._OverCostCountInOneTerm = 0
       // this._GenCountInOneTerm = 0
+
       return this.CalcId(this._LastTimeTick)
     }
     if (this._OverCostCountInOneTerm >= this.TopOverCostCount) {
@@ -110,6 +95,7 @@ class Genid {
       this._IsOverCost = false
       this._OverCostCountInOneTerm = 0
       // this._GenCountInOneTerm = 0
+
       return this.CalcId(this._LastTimeTick)
     }
     if (this._CurrentSeqNumber > this.MaxSeqNumber) {
@@ -139,6 +125,7 @@ class Genid {
         }
         this.BeginTurnBackAction(this._TurnBackTimeTick)
       }
+
       return this.CalcTurnBackId(this._TurnBackTimeTick)
     }
     // 时间追平时，_TurnBackTimeTick 清零
@@ -150,6 +137,7 @@ class Genid {
     if (currentTimeTick > this._LastTimeTick) {
       this._LastTimeTick = currentTimeTick
       this._CurrentSeqNumber = this.MinSeqNumber
+
       return this.CalcId(this._LastTimeTick)
     }
 
@@ -174,6 +162,7 @@ class Genid {
       BigInt(this.WorkerId << this.SeqBitLength) +
       BigInt(this._CurrentSeqNumber)
     this._CurrentSeqNumber++
+
     return result
   }
 
@@ -183,11 +172,13 @@ class Genid {
       BigInt(this.WorkerId << this.SeqBitLength) +
       BigInt(this._TurnBackIndex)
     this._TurnBackTimeTick--
+
     return result
   }
 
   GetCurrentTimeTick() {
     const millis = BigInt(new Date().valueOf())
+
     return millis - this.BaseTime
   }
 
@@ -196,6 +187,7 @@ class Genid {
     while (tempTimeTicker <= this._LastTimeTick) {
       tempTimeTicker = this.GetCurrentTimeTick()
     }
+
     return tempTimeTicker
   }
 

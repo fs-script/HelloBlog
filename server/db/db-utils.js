@@ -5,7 +5,7 @@ const GenID = require("../utils/SnowFlake")
 const db = new sqlite3.Database(path.join(__dirname, "blog.sqlite3"))
 const genid = new GenID({ WorkerId: 1 })
 
-// 封装为 Promise
+// Promise
 db.async = {}
 
 db.async.all = (sql, params) => {

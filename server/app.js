@@ -3,6 +3,7 @@ const path = require("path")
 const multer = require("multer")
 const cors = require("cors")
 const { db } = require("./db/db-utils")
+
 const app = express()
 const port = 8080
 
@@ -19,11 +20,13 @@ const port = 8080
 //   }
 // })
 app.use(cors())
+
 // 处理 JSON
 app.use(express.json())
 
 // 验证 Token，判断是否处于登录状态
 const ADMIN_TOKEN_PATH = "/_token"
+
 app.all("*", async (req, res, next) => {
   if (req.path.indexOf(ADMIN_TOKEN_PATH) > -1) {
     let { token } = req.headers
@@ -52,6 +55,7 @@ app.use("/blog", require("./routers/BlogRouter"))
 
 // 处理文件上传
 const update = multer({ dest: "./public/upload/temp" })
+
 app.use(update.any())
 app.use("/editor", require("./routers/UploadRouter"))
 

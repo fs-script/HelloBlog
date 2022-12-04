@@ -1,7 +1,8 @@
 const express = require("express")
-const router = express.Router()
 const { v4: uuidv4 } = require("uuid")
 const { db } = require("../db/db-utils")
+
+const router = express.Router()
 
 // 管理员登录接口
 router.post("/login", async (req, res) => {
@@ -20,13 +21,13 @@ router.post("/login", async (req, res) => {
 
     res.send({
       code: 200,
-      msg: "登录成功",
+      msg: "登录-成功",
       data: adminInfo,
     })
   } else {
     res.send({
       code: 403,
-      msg: "登录失败",
+      msg: "登录-失败",
     })
   }
 })

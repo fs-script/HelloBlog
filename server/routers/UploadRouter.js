@@ -1,14 +1,15 @@
 const express = require("express")
-const router = express.Router()
 const fs = require("fs")
 const { genid } = require("../db/db-utils")
+
+const router = express.Router()
 
 // 文件上传接口
 router.post("/upload", async (req, res) => {
   if (!req.files){
     res.send({
       "error": 1,
-      "message": "上传失败"
+      "message": "上传-失败"
     })
 
     return

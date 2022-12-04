@@ -1,6 +1,7 @@
 const express = require("express")
-const router = express.Router()
 const { db, genid } = require("../db/db-utils")
+
+const router = express.Router()
 
 // 文章添加接口
 router.post("/_token/add", async (req, res) => {
@@ -14,12 +15,12 @@ router.post("/_token/add", async (req, res) => {
   if (err == null) {
     res.send({
       code: 200,
-      msg: "添加成功",
+      msg: "添加-成功",
     })
   } else {
     res.send({
       code: 403,
-      msg: "添加失败",
+      msg: "添加-失败",
     })
   }
 })
@@ -34,12 +35,12 @@ router.put("/_token/update", async (req, res) => {
   if (err == null) {
     res.send({
       code: 200,
-      msg: "修改成功",
+      msg: "修改-成功",
     })
   } else {
     res.send({
       code: 403,
-      msg: "修改失败",
+      msg: "修改-失败",
     })
   }
 })
@@ -53,12 +54,12 @@ router.delete("/_token/delete", async (req, res) => {
   if (err == null) {
     res.send({
       code: 200,
-      msg: "删除成功",
+      msg: "删除-成功",
     })
   } else {
     res.send({
       code: 403,
-      msg: "删除失败",
+      msg: "删除-失败",
     })
   }
 })
@@ -104,7 +105,7 @@ router.get("/search", async (req, res) => {
   if (searchResult.err == null && countResult.err == null) {
     res.send({
       code: 200,
-      msg: "查询成功",
+      msg: "查询-成功",
       data: {
         keyword,
         categoryId,
@@ -116,8 +117,8 @@ router.get("/search", async (req, res) => {
     })
   } else {
     res.send({
-      code: 500,
-      msg: "查询失败",
+      code: 403,
+      msg: "查询-失败",
     })
   }
 })
@@ -131,13 +132,13 @@ router.get("/detail", async (req, res) => {
   if (err == null) {
     res.send({
       code: 200,
-      msg: "获取成功",
+      msg: "获取-成功",
       rows,
     })
   } else {
     res.send({
       code: 403,
-      msg: "获取失败",
+      msg: "获取-失败",
     })
   }
 })
