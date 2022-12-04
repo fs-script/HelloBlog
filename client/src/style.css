@@ -1,5 +1,13 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+code {
+  padding: 20px;
+  margin: 10px;
+  display: block;
+  background: rgba(63,63,63,0.9);
+  color: #FFFFFF;
+  border-radius: 10px;
 }

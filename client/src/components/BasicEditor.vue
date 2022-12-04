@@ -1,45 +1,57 @@
 <template>
   <div>
     <Toolbar
-        :editor="editorRef"
-        :defaultConfig="toolbarConfig"
-        :mode="mode"
-        style="border-bottom: 1px solid #ccc"
-      />
-      <Editor
-        :defaultConfig="editorConfig"
-        :mode="mode"
-        v-model="valueHtml"
-        style="height: 400px; overflow-y: hidden"
-        @onCreated="handleCreated"
-        @onChange="handleChange"
-      />
+      class="toolbar"
+      :editor="editorRef"
+      :defaultConfig="toolbarConfig"
+      :mode="mode"
+    />
+    <Editor
+      class="editor"
+      :defaultConfig="editorConfig"
+      :mode="mode" v-model="valueHtml"
+      @onCreated="handleCreated"
+      @onChange="handleChange"
+    />
   </div>
 </template>
 
 <script setup>
 import '@wangeditor/editor/dist/css/style.css'
-import { ref, reactive, inject, onMounted, onBeforeUnmount, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { ref, inject, onMounted, onBeforeUnmount, shallowRef } from 'vue'
 
 const server_url = inject("server_url")
 
-// 编辑器实例，必须用 shallowRef，重要！
+const mode = ref('default')
+const valueHtml = ref('<p>hello</p>')
+
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: "",
+  }
+})
+
+const emit = defineEmits(["update:model-value"])
+
 const editorRef = shallowRef()
-// 内容 HTML
-const valueHtml = ref('<p>hello</p>');
 
 const toolbarConfig = {
-  excludeKeys: ["uploadVideo"]
-};
-const editorConfig = { placeholder: '请输入内容...' }
+  excludeKeys: ["uploadVideo", "fullScreen"]
+}
+
+const editorConfig = {
+  placeholder: '请输入内容...'
+}
+
 editorConfig.MENU_CONF = {}
+
 editorConfig.MENU_CONF['uploadImage'] = {
   server: server_url + '/editor/upload',
-
-  // 小于该值就插入 base64 格式（而不上传），默认为 0
-  base64LimitSize: 5 * 1024 // 5kb
+  base64LimitSize: 5 * 1024
 }
+
 editorConfig.MENU_CONF['insertImage'] = {
   parseImageSrc: (src) => {
     if (src.indexOf("http") !==0 ) {
@@ -48,17 +60,6 @@ editorConfig.MENU_CONF['insertImage'] = {
     return src
   }
 }
-
-const mode = ref('default')
-
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: ""
-  }
-})
-
-const emit = defineEmits(["update:model-value"])
 
 let initFinished = false
 
@@ -69,7 +70,6 @@ onMounted(() => {
   }, 10)
 })
 
-// 组件销毁时，也及时销毁编辑器，重要！
 onBeforeUnmount(() => {
   const editor = editorRef.value;
   if (editor == null) return;
@@ -77,13 +77,11 @@ onBeforeUnmount(() => {
   editor.destroy();
 })
 
-// 编辑器回调函数
 const handleCreated = (editor) => {
-  // 记录 editor 实例，重要！
   editorRef.value = editor;
 }
 
-const handleChange = (editor) => {
+const handleChange = () => {
   if (initFinished) {
     emit("update:model-value", valueHtml.value)
   }
@@ -91,5 +89,15 @@ const handleChange = (editor) => {
 </script>
 
 <style scoped>
+.toolbar {
+  border-bottom: 1px solid #c9c9c9;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
 
+.editor {
+  min-height: 280px;
+  overflow: hidden;
+}
 </style>

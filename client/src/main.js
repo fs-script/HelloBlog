@@ -8,17 +8,19 @@ import { createDiscreteApi } from 'naive-ui'
 import axios from 'axios';
 import { AdminStore } from './stores/AdminStore'
 
+// 服务器请求的基础地址
 axios.defaults.baseURL = 'http://localhost:8080'
+
 const { message, dialog, notification } = createDiscreteApi(["message", "dialog", "notification"])
 
 const app = createApp(App)
 
 // 全局依赖提供
 app.provide('axios', axios)
+app.provide('server_url', axios.defaults.baseURL)
 app.provide('message', message)
 app.provide('dialog', dialog)
 app.provide('notification', notification)
-app.provide('server_url', axios.defaults.baseURL)
 
 app.use(createPinia())
 app.use(router)
@@ -29,6 +31,7 @@ const adminStore = AdminStore()
 // 拦截器
 axios.interceptors.request.use((config) => {
   config.headers.token = adminStore.token
+
   return config
 })
 

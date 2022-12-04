@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const AdminStore = defineStore('admin', {
+const AdminStore = defineStore('admin', {
   state: () => {
     return {
       id: 0,
@@ -11,3 +11,5 @@ export const AdminStore = defineStore('admin', {
   actions: {},
   getters: {},
 })
+
+export { AdminStore }

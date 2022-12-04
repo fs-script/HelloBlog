@@ -1,10 +1,11 @@
 <template>
-  <div class="main-panel">
+  <div>
     <n-space vertical>
-      <n-layout has-sider>
-        <n-layout-sider bordered collapse-mode="width" :collapsed-width="64" :width="240" show-trigger>
+      <n-layout class="n-layout-main" has-sider>
+        <n-layout-sider bordered collapse-mode="width" :collapsed-width="64" :width="180" show-trigger>
           <n-menu :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" />
         </n-layout-sider>
+
         <n-layout>
           <RouterView />
         </n-layout>
@@ -14,37 +15,20 @@
 </template>
 
 <script setup>
-import { h, ref, reactive, inject } from 'vue'
-import { AdminStore } from '../stores/AdminStore'
+import { h } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { NIcon } from 'naive-ui'
 import {
   AlbumsOutline as ArticleIcon,
   FileTrayFullOutline as ClassifyIcon,
-  LeafOutline as ExitIcon
+  LogOutOutline as ExitIcon
 } from '@vicons/ionicons5'
-
-function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
-
-const route = useRoute()
-const router = useRouter()
-
-const axios = inject('axios')
-const message = inject('message')
-
-const adminStore = AdminStore()
 
 const menuOptions = [
   {
     label: () => h(
       RouterLink,
-      {
-        to: {
-          path: '/dashboard/article'
-        }
-      },
+      { to: { path: '/dashboard/article' } },
       { default: () => '文章管理' }
     ),
     key: 'article-management',
@@ -53,11 +37,7 @@ const menuOptions = [
   {
     label: () => h(
       RouterLink,
-      {
-        to: {
-          path: '/dashboard/category'
-        }
-      },
+      { to: { path: '/dashboard/category' } },
       { default: () => '分类管理' }
     ),
     key: 'classification-management',
@@ -66,21 +46,27 @@ const menuOptions = [
   {
     label: () => h(
       RouterLink,
-      {
-        to: {
-          path: '/login'
-        }
-      },
-      { default: () => '退出' }
+      { to: { path: '/login' } },
+      { default: () => '退出后台' }
     ),
-    key: 'exit',
+    key: 'exit-background',
     icon: renderIcon(ExitIcon)
-  }
+  },
 ]
+
+function renderIcon(icon) {
+  return () => h(NIcon, null, { default: () => h(icon) })
+}
 </script>
 
 <style lang="scss" scoped>
-.main-panel {
+.n-layout-main {
   width: 100vw;
+  height: 100vh;
+
+  .n-layout-sider {
+  padding-top: 20px;
+  background: rgba(245,247,250,1);
+  }
 }
 </style>
